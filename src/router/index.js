@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import NewTicketView from '../views/NewTicketView.vue'
+import TicketBearbeitenView from '@/views/TicketBearbeitenView.vue'
 import NotificationView from '../views/NotificationView.vue'
 import ItServiceSupportView from '../views/ItServiceSupportView.vue'
 import BackendSupportView from '../views/BackendSupportView.vue'
@@ -41,6 +42,12 @@ const routes = [
     path: '/NewTicket',
     name: 'NewTicket',
     component: NewTicketView
+  },
+  {
+    path: '/bearbeiten/:id',
+    name: 'TicketBearbeitenView',
+    component: TicketBearbeitenView,
+    props: true
   }
 ]
 
