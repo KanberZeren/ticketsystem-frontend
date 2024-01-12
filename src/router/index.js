@@ -36,6 +36,11 @@ const routes = [
     path: '/ServiceCenter',
     name: 'ServiceCenter',
     component: ServiceCenterView
+  },
+  {
+    path: '/NewTicket',
+    name: 'NewTicket',
+    component: NewTicketView
   }
 ]
 
