@@ -1,7 +1,6 @@
 <template>
   <div class="home">
     <HomePage msg="Welcome to our Ticketsystem!"/>
-    <button @click="goToNewTicketView">Neues Ticket erstellen</button>
     <TicketListe/>
   </div>
 </template>
@@ -15,14 +14,15 @@ export default {
   components: {
     HomePage,
     TicketListe
-  },
-  methods: {
-    goToNewTicketView () {
-      this.$router.push({ name: 'NewTicket' })
-    }
   }
 }
 </script>
 
-<style>
+<style scoped>
+.home {
+  margin-left: 20px;
+  margin-left: 20px;
+  flex-direction: column;
+  padding: 20px;
+}
 </style>
