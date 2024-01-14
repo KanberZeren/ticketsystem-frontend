@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <div class="home">
-      <NavBar/>
       <router-view></router-view>
       <HomePage msg="Welcome to our Ticketsystem!"/>
       <TicketListe/>
@@ -12,12 +11,10 @@
 <script>
 import HomePage from '@/components/HomePage.vue'
 import TicketListe from '@/components/TicketListe.vue'
-import NavBar from '@/components/NavBar.vue'
 
 export default {
   name: 'HomeView',
   components: {
-    NavBar,
     HomePage,
     TicketListe
   }

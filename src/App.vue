@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <NavBar></NavBar>
     <router-view class="main-content"></router-view>
     <!--<FooterBar></FooterBar>-->
   </div>
@@ -9,8 +10,11 @@
 // import NavBar from '@/components/NavBar.vue'
 // import FooterBar from '@/components/FooterBar.vue'
 
+import NavBar from '@/components/NavBar.vue'
+
 export default {
-  name: 'App'
+  name: 'App',
+  components: { NavBar }
   // components: { NavBar } // FooterBar
 }
 </script>
