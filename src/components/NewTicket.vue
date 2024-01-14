@@ -12,16 +12,6 @@
         <textarea v-model="nachricht" required class="form-control"></textarea>
       </div>
 
-      <div class="form-group">
-        <label for="status">Status:</label>
-        <select v-model="status" required class="form-control">
-          <option value="OFFEN" disabled selected>Offen</option>
-          <option value="GELÖST">Gelöst</option>
-          <option value="WARTEND">Wartend</option>
-          <option value="IN_BEARBEITUNG">In Bearbeitung</option>
-        </select>
-      </div>
-
       <!-- Display the created time after saving a new ticket -->
       <div v-if="erstelltAm" class="form-group">
         <label>Erstellt am:</label>
@@ -51,7 +41,7 @@ export default {
         const response = await axios.post('http://localhost:8080/ticket', {
           betreff: this.betreff,
           nachricht: this.nachricht,
-          status: this.status
+          status: 'OFFEN'
         })
         console.log('Ticket created:', response.data)
         this.erstelltAm = response.data.erstelltAm

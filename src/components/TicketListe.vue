@@ -1,22 +1,21 @@
 <template>
   <div class="ticket-container">
     <h1 class="mb-4">Alle Tickets</h1>
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <div class="d-flex">
-          <select class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <option value="OFFEN">Offen</option>
-            <option value="all">Alle</option>
-            <option value="GELÖST">Gelöst</option>
-            <option value="IN_BEARBEITUNG">in Bearbeitung</option>
-          </select>
-        </div>
-        <button @click="goToNewTicketView" class="btn btn-primary">Neues Ticket</button>
-        <div class="d-flex">
-          <input v-model="searchTerm" type="text" class="form-control" placeholder="Ticketnummer eingeben">
-          <button @click="searchTicket" class="btn btn-outline-primary">Suchen</button>
-        </div>
-
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div class="d-flex">
+        <select v-model="currentFilter" class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <option value="OFFEN">Offen</option>
+          <option value="all">Alle</option>
+          <option value="GELÖST">Gelöst</option>
+          <option value="IN_BEARBEITUNG">in Bearbeitung</option>
+        </select>
       </div>
+      <button @click="goToNewTicketView" class="btn btn-primary">Neues Ticket</button>
+      <div class="d-flex">
+        <input v-model="searchTerm" type="text" class="form-control" placeholder="Ticketnummer eingeben">
+        <button @click="searchTicket" class="btn btn-outline-primary">Suchen</button>
+      </div>
+    </div>
     <table class="table table-striped table-hover">
       <thead class="thead-pastel-blue">
       <tr>
@@ -30,7 +29,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr v-for="ticket in tickets" :key="ticket.id">
+      <tr v-for="ticket in filteredTickets" :key="ticket.id">
         <td>{{ ticket.id }}</td>
         <td>{{ ticket.ticketnummer }}</td>
         <td>{{ ticket.betreff }}</td>
@@ -63,11 +62,28 @@ import ticketService from '@/router/ticketService'
 export default {
   data () {
     return {
-      tickets: []
+      tickets: [],
+      currentFilter: 'all',
+      searchTerm: ''
     }
   },
   created () {
     this.fetchTickets()
+  },
+  computed: {
+    filteredTickets () {
+      let filtered = this.tickets
+
+      if (this.currentFilter !== 'all') {
+        filtered = filtered.filter(ticket => ticket.status === this.currentFilter)
+      }
+
+      if (this.searchTerm) {
+        filtered = filtered.filter(ticket => ticket.ticketnummer.includes(this.searchTerm))
+      }
+
+      return filtered
+    }
   },
   methods: {
     async fetchTickets () {
@@ -98,11 +114,16 @@ export default {
       this.$router.push({ name: 'NewTicket' })
     },
     async searchTicket () {
-      try {
-        const response = await ticketService.getTicketByTicketnummer(this.searchTerm)
-        this.tickets = response.data ? [response.data] : []
-      } catch (error) {
-        console.error('Fehler beim Suchen des Tickets:', error)
+      if (this.searchTerm) {
+        try {
+          const response = await ticketService.getTicketByTicketnummer(this.searchTerm)
+          const searchedTickets = response.data ? [response.data] : []
+
+          this.tickets = searchedTickets
+          this.currentFilter = 'all'
+        } catch (error) {
+          console.error('Fehler beim Suchen des Tickets:', error)
+        }
       }
     }
   }
