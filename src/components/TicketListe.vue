@@ -95,6 +95,9 @@ export default {
 <style scoped>
 .ticket-container {
   margin: auto;
+  margin-left: 20px;
+  flex-direction: column;
+  padding: 20px;
 }
 
 .new-ticket-btn {
