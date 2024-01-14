@@ -11,7 +11,10 @@
         <label for="nachricht">Nachricht:</label>
         <textarea v-model="editedTicket.nachricht" class="form-control" required></textarea>
       </div>
-
+      <div class="form-group">
+        <label for="kommentar">Kommentar:</label>
+        <textarea v-model="editedTicket.kommentar" class="form-control" required></textarea>
+      </div>
       <div class="form-group">
         <label for="status">Status:</label>
         <select v-model="editedTicket.status" class="form-control" required>
@@ -23,6 +26,9 @@
       </div>
 
       <button type="submit" class="btn btn-primary">Speichern</button>
+      <div v-if="saveSuccess" class="success-message">
+        Ihr Ticket wurde erfolgreich gespeichert!
+      </div>
     </form>
   </div>
 </template>
@@ -36,8 +42,10 @@ export default {
       editedTicket: {
         betreff: '',
         nachricht: '',
-        status: ''
-      }
+        status: '',
+        kommentar: ''
+      },
+      saveSuccess: false
     }
   },
   created () {
@@ -57,7 +65,7 @@ export default {
       try {
         const ticketId = this.$route.params.id
         await ticketService.updateTicket(ticketId, this.editedTicket)
-        this.$router.push({ name: 'TicketListe' })
+        this.saveSuccess = true
       } catch (error) {
         console.error('Fehler beim Aktualisieren des Tickets:', error)
       }
