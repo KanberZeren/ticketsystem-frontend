@@ -8,7 +8,7 @@
         </p>
       </div>
       <div class="image-container">
-        <img src="@/assets/Support.png" alt="IT Support Image">
+        <img src="@/assets/servicefoto.png" alt="IT Support Image">
       </div>
     </div>
   </div>
@@ -41,7 +41,8 @@
 }
 
 img {
-  max-width: 100%;
   height: auto;
+  width: 500px;
+
 }
 </style>
