@@ -11,6 +11,11 @@
           </select>
         </div>
         <button @click="goToNewTicketView" class="btn btn-primary">Neues Ticket</button>
+        <div class="d-flex">
+          <input v-model="searchTerm" type="text" class="form-control" placeholder="Ticketnummer eingeben">
+          <button @click="searchTicket" class="btn btn-outline-primary">Suchen</button>
+        </div>
+
       </div>
     <table class="table table-striped table-hover">
       <thead class="thead-pastel-blue">
@@ -91,6 +96,14 @@ export default {
     },
     goToNewTicketView () {
       this.$router.push({ name: 'NewTicket' })
+    },
+    async searchTicket () {
+      try {
+        const response = await ticketService.getTicketByTicketnummer(this.searchTerm)
+        this.tickets = response.data ? [response.data] : []
+      } catch (error) {
+        console.error('Fehler beim Suchen des Tickets:', error)
+      }
     }
   }
 }
